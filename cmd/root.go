@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/csv"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"os"
 
@@ -20,7 +21,10 @@ var rootCmd = &cobra.Command{
 	Short: "pgtocsv executes a query and returns the results in CSV format.",
 	Long: `pgtocsv executes a query and returns the results in CSV format
 
-If neither --file or --sql is specified the SQL will be read from STDIN.`,
+If neither --file or --sql is specified the SQL will be read from STDIN.
+
+PG* environment variables such as PGDATABASE can be used to configure the
+connection.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		ctx := context.Background()
 
@@ -51,7 +55,20 @@ If neither --file or --sql is specified the SQL will be read from STDIN.`,
 		}
 		defer conn.Close(ctx)
 
-		w := csv.NewWriter(os.Stdout)
+		var out io.Writer
+		if viper.GetString("output") == "" {
+			out = os.Stdout
+		} else {
+			f, err := os.Create(viper.GetString("output"))
+			if err != nil {
+				fmt.Fprintf(os.Stderr, "unable to open output file: %v\n", err)
+				os.Exit(1)
+			}
+			defer f.Close()
+			out = f
+		}
+
+		w := csv.NewWriter(out)
 
 		mrr := conn.Exec(ctx, sql)
 
@@ -119,6 +136,9 @@ func init() {
 
 	rootCmd.Flags().StringP("sql", "s", "", "SQL to execute")
 	viper.BindPFlag("sql", rootCmd.Flags().Lookup("sql"))
+
+	rootCmd.Flags().StringP("output", "o", "", "Output results to file instead of STDOUT")
+	viper.BindPFlag("output", rootCmd.Flags().Lookup("output"))
 }
 
 // initConfig reads in config file and ENV variables if set.
