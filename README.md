@@ -20,8 +20,16 @@ $ go get -u github.com/jackc/pgtocsv
 
 ```
 $ pgtocsv -s 'select * from users'
+id,name
+1,jack
 ```
 
 ```
 $ pgtocsv -f query.sql
+id,first_name,last_name,sex,birth_date,weight,height,update_time
+1,Hunter,Halvorson,male,2004-06-13,66,61,2006-05-24 11:32:33-05
+2,Sigrid,Kub,male,2002-06-09,10,70,2010-11-18 08:50:07-06
+3,Alta,Luettgen,male,2006-07-31,336,73,1986-07-16 12:10:13-05
+4,Nestor,Schulist,female,1999-03-12,171,24,2004-04-08 21:09:24-05
+5,Carolyn,Yundt,female,2003-06-18,275,72,2013-05-25 08:31:50-05
 ```
