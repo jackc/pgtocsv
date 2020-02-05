@@ -1,6 +1,6 @@
 # pgtocsv
 
-`pgtocsv` is a single purpose tool that executes a query on a PostgreSQL database and outputs the results in CSV.
+`pgtocsv` executes a query on a PostgreSQL database and outputs the results in CSV.
 
 Why not just use psql and `\copy`?
 
@@ -14,6 +14,7 @@ The Go tool chain must be installed.
 
 ```
 $ go get -u github.com/jackc/pgtocsv
+```
 
 ## Example usage
 
