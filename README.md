@@ -16,6 +16,10 @@ The Go tool chain must be installed.
 $ go get -u github.com/jackc/pgtocsv
 ```
 
+## Configuring Database Connection
+
+`pgtocsv` supports the standard `PG*` environment variables. In addition, the `-d` flag can be used to specify a database URL.
+
 ## Example usage
 
 ```
@@ -33,3 +37,7 @@ id,first_name,last_name,sex,birth_date,weight,height,update_time
 4,Nestor,Schulist,female,1999-03-12,171,24,2004-04-08 21:09:24-05
 5,Carolyn,Yundt,female,2003-06-18,275,72,2013-05-25 08:31:50-05
 ```
+
+## Related
+
+See also the sibling project [csvtopg)](https://github.com/jackc/csvtopg) which simplifies importing CSV data.
