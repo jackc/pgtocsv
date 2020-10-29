@@ -69,6 +69,9 @@ connection.`,
 		}
 
 		w := csv.NewWriter(out)
+		if viper.GetBool("tsv") {
+			w.Comma = '\t'
+		}
 
 		mrr := conn.Exec(ctx, sql)
 
@@ -139,6 +142,9 @@ func init() {
 
 	rootCmd.Flags().StringP("output", "o", "", "Output results to file instead of STDOUT")
 	viper.BindPFlag("output", rootCmd.Flags().Lookup("output"))
+
+	rootCmd.Flags().BoolP("tsv", "t", false, "Output TSV instead CSV")
+	viper.BindPFlag("tsv", rootCmd.Flags().Lookup("tsv"))
 }
 
 // initConfig reads in config file and ENV variables if set.
