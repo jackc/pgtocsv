@@ -2,11 +2,19 @@
 
 `pgtocsv` executes a query on a PostgreSQL database and outputs the results in CSV.
 
-Why not just use psql and `\copy`?
+## Project Retired
 
-* `pgtocsv` has easier syntax than `\copy`
-* `\copy` requires the entire query be given on one line
-* `pgtocsv` can read the query from a file
+As of PostgreSQL 12, `psql` can do everything `pgtocsv` can. For example:
+
+```
+psql --quiet --no-psqlrc --csv  -c 'select * from users' > users.csv
+```
+
+Or for TSV output to a file instead of stdout:
+
+```
+psql --quiet --no-psqlrc --csv -c "\pset csv_fieldsep '\t'" -c 'select * from users' -o users.tsv
+```
 
 ## Installation
 
